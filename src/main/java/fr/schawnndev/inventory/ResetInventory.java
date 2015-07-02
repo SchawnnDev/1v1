@@ -76,9 +76,8 @@ public class ResetInventory {
 
             ItemStack itemStack = inventory.getItem(slot);
 
-            if(itemStack != null){
-                items.add(new AbstractMap.SimpleEntry<>(slot, new ResetItem(itemStack.getType(), itemStack.getItemMeta(), itemStack.getAmount(), itemStack.getDurability(), itemStack.getData().getData())))
-            }
+            if(itemStack != null)
+                items.add(new AbstractMap.SimpleEntry<>(slot, new ResetItem(itemStack.getType(), itemStack.getItemMeta(), itemStack.getAmount(), itemStack.getDurability(), itemStack.getData().getData(), itemStack.getEnchantments())));
 
         }
 
