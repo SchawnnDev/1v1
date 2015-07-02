@@ -68,6 +68,8 @@ public class ResetInventory {
         for(PotionEffect potionEffect : player.getActivePotionEffects())
             player.removePotionEffect(potionEffect.getType());
 
+        player.updateInventory();
+
     }
 
     public void save(){
@@ -87,6 +89,8 @@ public class ResetInventory {
         }
 
         effects.addAll(player.getActivePotionEffects());
+
+        player.updateInventory();
 
         isSaved = true;
     }
@@ -108,7 +112,10 @@ public class ResetInventory {
             for(PotionEffect potionEffect : getEffects())
                 player.addPotionEffect(potionEffect);
 
+            player.updateInventory();
 
+            effects.clear();
+            items.clear();
         }
 
     }

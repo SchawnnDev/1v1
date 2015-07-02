@@ -22,6 +22,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 /**
  *  J'aurais voulu la nommer 1v1 mais en java on ne peut pas créer de classe avec des nombres ..
  */
@@ -31,7 +35,7 @@ public class Main extends JavaPlugin {
     @Getter
     private static Main instance;
 
-    public ResetInventory resetInventory = null;
+    public List<ResetInventory> inventoryList = new CopyOnWriteArrayList<>();
 
     @Override
     public void onEnable() {
@@ -54,6 +58,22 @@ public class Main extends JavaPlugin {
 
         FileManager.init();
 
+    }
+
+    public ResetInventory getResetInventory(UUID uuid){
+        for(ResetInventory r : inventoryList)
+            if(r != null && r.getUuid() == uuid)
+                return r;
+
+        return null;
+    }
+
+    public boolean hasResetInventory(UUID uuid){
+        for(ResetInventory r : inventoryList)
+            if(r != null && r.getUuid() == uuid)
+                return true;
+
+        return false;
     }
 
     /**
@@ -82,16 +102,17 @@ public class Main extends JavaPlugin {
             } else if (args.length == 1){
 
                 if(args[0].equalsIgnoreCase("save")){
-                    resetInventory = new ResetInventory(player.getUniqueId(), true);
+                    inventoryList.add(new ResetInventory(player.getUniqueId(), true));
                     return true;
                 } else if (args[0].equalsIgnoreCase("load")){
 
-                    if(resetInventory == null){
+                    if(!hasResetInventory(player.getUniqueId())){
                         player.sendMessage("§cAucun inventaire saved !");
                         return true;
                     }
 
-                    resetInventory.reset();
+                    getResetInventory(player.getUniqueId()).reset();
+                    inventoryList.remove(getResetInventory(player.getUniqueId()));
 
                     return true;
                 }
