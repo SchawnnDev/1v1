@@ -92,6 +92,11 @@ public class Main extends JavaPlugin {
                 }
 
                 player.sendMessage("§f" + "/a " + args[0] + " §cn'est pas un arg valable !");
+                player.sendMessage(" ");
+                player.sendMessage("§f------ §bHelp §f------");
+                player.sendMessage("§6Save son inventaire: §f/a save");
+                player.sendMessage("§6Load son inventaire save: §f/a load");
+                player.sendMessage("§f------------------");
                 return true;
             } else {
                 player.sendMessage("§cTrop d'arguments !");
