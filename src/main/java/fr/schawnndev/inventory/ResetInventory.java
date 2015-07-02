@@ -20,10 +20,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
-import java.util.AbstractMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class ResetInventory {
 
@@ -37,7 +34,7 @@ public class ResetInventory {
     private float exp;
 
     @Getter
-    private List<PotionEffect> effects;
+    private Collection<PotionEffect> effects;
 
     @Getter
     private boolean isSaved = false;
@@ -57,15 +54,21 @@ public class ResetInventory {
     }
 
     public void clean(){
-
         if(!isSaved)
             save();
 
+        final Player player = getPlayer();
+
+        player.setExp(0f);
+        player.getInventory().clear();
+        player.getInventory().setArmorContents(null);
+
+        for(PotionEffect potionEffect : player.getActivePotionEffects())
+            player.removePotionEffect(potionEffect.getType());
 
     }
 
     public void save(){
-
         final Player player = getPlayer();
 
         this.exp = player.getExp();
@@ -74,7 +77,7 @@ public class ResetInventory {
 
         for(int slot = 0; slot < inventory.getSize(); slot++){
 
-            ItemStack itemStack = inventory.getItem(slot);
+            final ItemStack itemStack = inventory.getItem(slot);
 
             if(itemStack != null)
                 items.add(new AbstractMap.SimpleEntry<>(slot, new ResetItem(itemStack.getType(), itemStack.getItemMeta(), itemStack.getAmount(), itemStack.getDurability(), itemStack.getData().getData(), itemStack.getEnchantments())));
@@ -82,9 +85,6 @@ public class ResetInventory {
         }
 
         effects.addAll(player.getActivePotionEffects());
-
-
-
 
         isSaved = true;
     }
@@ -99,6 +99,13 @@ public class ResetInventory {
             clean();
 
             player.setExp(this.exp);
+
+            for(Map.Entry<Integer, ResetItem> items : getItems())
+                player.getInventory().setItem(items.getKey(), items.getValue().build());
+
+            for(PotionEffect potionEffect : getEffects())
+                player.addPotionEffect(potionEffect);
+
 
         }
 

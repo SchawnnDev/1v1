@@ -43,7 +43,7 @@ public class ResetItem {
     private Map<Enchantment, Integer> enchantments;
 
     public ResetItem(Material material, ItemMeta itemMeta, int amount, Map<Enchantment, Integer> enchantments){
-        this.material = material;
+        this.material = material == null ? Material.AIR : material;
         this.itemMeta = itemMeta;
         this.amount = amount <= 0 ? 1 : amount;
         this.damage = (short)-1;
@@ -52,7 +52,7 @@ public class ResetItem {
     }
 
     public ResetItem(Material material, ItemMeta itemMeta, int amount, short damage, Map<Enchantment, Integer> enchantments){
-        this.material = material;
+        this.material = material == null ? Material.AIR : material;
         this.itemMeta = itemMeta;
         this.amount = amount <= 0 ? 1 : amount;
         this.damage = damage;
@@ -61,7 +61,7 @@ public class ResetItem {
     }
 
     public ResetItem(Material material, ItemMeta itemMeta, int amount, short damage, byte data, Map<Enchantment, Integer> enchantments){
-        this.material = material;
+        this.material = material == null ? Material.AIR : material;
         this.itemMeta = itemMeta;
         this.amount = amount <= 0 ? 1 : amount;
         this.damage = damage;
@@ -79,11 +79,15 @@ public class ResetItem {
         else if (damage > -1 && data > -1)
             itemStack = new ItemStack(material, amount, damage, data);
 
+        if(itemStack == null)
+            return new ItemStack(Material.AIR);
+
         if(enchantments.size() > 0)
             for(Map.Entry<Enchantment,Integer> entry : enchantments.entrySet())
                 itemStack.addEnchantment(entry.getKey(), entry.getValue());
 
-        itemStack.setItemMeta(itemMeta);
+        if(itemMeta != null)
+            itemStack.setItemMeta(itemMeta);
 
         return itemStack;
     }
