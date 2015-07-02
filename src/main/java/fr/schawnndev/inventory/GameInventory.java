@@ -16,6 +16,7 @@ package fr.schawnndev.inventory;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 
 import java.util.*;
@@ -68,7 +69,7 @@ public class GameInventory {
                 String[] enchantments = itemData[6].split("//");
 
                 for (int e = 0; e < enchantments.length; e++)
-                    enchantmentMap.put(Enchantment.getById(Integer.valueOf(enchantments[e].split("#")[1])), Integer.valueOf(enchantments[e].split("#")[0]));
+                    enchantmentMap.put(Enchantment.getById(Integer.valueOf(enchantments[e].split("#")[0])), Integer.valueOf(enchantments[e].split("#")[1]));
 
             }
 
@@ -79,7 +80,40 @@ public class GameInventory {
     }
 
     public String serialize() {
-        return "hello";
+        String data = "";
+
+        for(Map.Entry<Integer, ResetItem> item : items){
+
+            int slot = item.getKey();
+            ItemStack itemStack = item.getValue().build();
+            String displayName = "aucun";
+
+
+            if(itemStack.hasItemMeta() && itemStack.getItemMeta().getDisplayName() != null)
+                displayName = itemStack.getItemMeta().getDisplayName();
+
+            String add = "" + slot + "::" + itemStack.getTypeId() + "::" + itemStack.getAmount() + "::"
+                       + itemStack.getDurability() + "::" + displayName + "::";
+
+            Set<Map.Entry<Enchantment, Integer>> enchantments = itemStack.getEnchantments().entrySet();
+
+            if(enchantments.size() > 0) {
+
+                for (int i = 0; i < enchantments.toArray().length; i++) {
+                    Map.Entry<Enchantment, Integer> integerEntry = ((Map.Entry<Enchantment, Integer>) enchantments.toArray()[i]);
+
+                    if (i == 0) {
+                        add += ("" + integerEntry.getKey().getId() + "#" + integerEntry.getValue());
+                    } else {
+                        add += ("//" + integerEntry.getKey().getId() + "#" + integerEntry.getValue());
+                    }
+
+                }
+            }
+
+        }
+
+        return id + " @@ " + name + " @@ " + data;
     }
 
 }

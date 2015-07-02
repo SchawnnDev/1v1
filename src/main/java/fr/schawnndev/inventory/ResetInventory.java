@@ -15,6 +15,7 @@ package fr.schawnndev.inventory;
 
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -51,6 +52,8 @@ public class ResetInventory {
 
         if (forceClean)
             clean();
+
+        System.out.println(serialize(1, "soup"));
 
     }
 
@@ -124,6 +127,43 @@ public class ResetInventory {
             items.clear();
         }
 
+    }
+
+    public String serialize(int id, String inventoryName) {
+        String data = "";
+
+        for(Map.Entry<Integer, ResetItem> item : items){
+
+            int slot = item.getKey();
+            ItemStack itemStack = item.getValue().build();
+            String displayName = "aucun";
+
+
+            if(itemStack.hasItemMeta() && itemStack.getItemMeta().getDisplayName() != null)
+                displayName = itemStack.getItemMeta().getDisplayName();
+
+            String add = "" + slot + "::" + itemStack.getTypeId() + "::" + itemStack.getAmount() + "::"
+                    + itemStack.getDurability() + "::" + displayName + "::";
+
+            Set<Map.Entry<Enchantment, Integer>> enchantments = itemStack.getEnchantments().entrySet();
+
+            if(enchantments.size() > 0) {
+
+                for (int i = 0; i < enchantments.toArray().length; i++) {
+                    Map.Entry<Enchantment, Integer> integerEntry = ((Map.Entry<Enchantment, Integer>) enchantments.toArray()[i]);
+
+                    if (i == 0) {
+                        add += ("" + integerEntry.getKey().getId() + "#" + integerEntry.getValue());
+                    } else {
+                        add += ("//" + integerEntry.getKey().getId() + "#" + integerEntry.getValue());
+                    }
+
+                }
+            }
+
+        }
+
+        return id + " @@ " + inventoryName + " @@ " + data;
     }
 
 
