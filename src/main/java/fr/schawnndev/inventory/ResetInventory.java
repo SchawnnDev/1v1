@@ -34,6 +34,9 @@ public class ResetInventory {
     private float exp;
 
     @Getter
+    private int level;
+
+    @Getter
     private Collection<PotionEffect> effects;
 
     @Getter
@@ -76,6 +79,7 @@ public class ResetInventory {
         final Player player = getPlayer();
 
         this.exp = player.getExp();
+        this.level = player.getLevel();
 
         Inventory inventory = player.getInventory();
 
@@ -105,6 +109,7 @@ public class ResetInventory {
             clean();
 
             player.setExp(this.exp);
+            player.setLevel(this.level);
 
             for(Map.Entry<Integer, ResetItem> items : getItems())
                 player.getInventory().setItem(items.getKey(), items.getValue().build());

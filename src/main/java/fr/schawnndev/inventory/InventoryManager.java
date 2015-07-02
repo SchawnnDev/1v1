@@ -14,4 +14,7 @@
 package fr.schawnndev.inventory;
 
 public class InventoryManager {
+
+
+
 }
