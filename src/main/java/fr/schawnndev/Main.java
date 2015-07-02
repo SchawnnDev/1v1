@@ -104,9 +104,8 @@ public class Main extends JavaPlugin {
             }
 
 
-
-
-            return true;
         }
+
+        return true;
     }
 }
