@@ -14,8 +14,8 @@
 package fr.schawnndev.events;
 
 import fr.schawnndev.Main;
-import org.bukkit.event.Listener;
 import org.bukkit.Bukkit;
+import org.bukkit.event.Listener;
 
 public class PlayerListener implements Listener {
 

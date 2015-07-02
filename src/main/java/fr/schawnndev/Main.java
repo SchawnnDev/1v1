@@ -27,7 +27,7 @@ import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
- *  J'aurais voulu la nommer 1v1 mais en java on ne peut pas créer de classe avec des nombres ..
+ * J'aurais voulu la nommer 1v1 mais en java on ne peut pas créer de classe avec des nombres ..
  */
 
 public class Main extends JavaPlugin {
@@ -48,7 +48,7 @@ public class Main extends JavaPlugin {
 
     }
 
-    void init(){
+    void init() {
 
         // Listeners
 
@@ -60,40 +60,40 @@ public class Main extends JavaPlugin {
 
     }
 
-    public ResetInventory getResetInventory(UUID uuid){
-        for(ResetInventory r : inventoryList)
-            if(r != null && r.getUuid() == uuid)
+    public ResetInventory getResetInventory(UUID uuid) {
+        for (ResetInventory r : inventoryList)
+            if (r != null && r.getUuid() == uuid)
                 return r;
 
         return null;
     }
 
-    public boolean hasResetInventory(UUID uuid){
-        for(ResetInventory r : inventoryList)
-            if(r != null && r.getUuid() == uuid)
+    public boolean hasResetInventory(UUID uuid) {
+        for (ResetInventory r : inventoryList)
+            if (r != null && r.getUuid() == uuid)
                 return true;
 
         return false;
     }
 
     /**
-     *  Test
+     * Test
      */
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if(command.getName().equalsIgnoreCase("a")){
+        if (command.getName().equalsIgnoreCase("a")) {
 
-            if(!(sender instanceof Player)){
+            if (!(sender instanceof Player)) {
                 sender.sendMessage("§cTu n'es pas un joueur !");
                 return true;
             }
 
             final Player player = (Player) sender;
 
-            if(args.length == 0){
+            if (args.length == 0) {
 
-                if(player.getItemInHand() != null && player.getItemInHand().getData() != null)
+                if (player.getItemInHand() != null && player.getItemInHand().getData() != null)
                     System.out.println(player.getItemInHand().getData().toString());
 
 
@@ -104,14 +104,14 @@ public class Main extends JavaPlugin {
                 player.sendMessage("§6Load son inventaire save: §f/a load");
                 player.sendMessage("§f------------------");
                 return true;
-            } else if (args.length == 1){
+            } else if (args.length == 1) {
 
-                if(args[0].equalsIgnoreCase("save")){
+                if (args[0].equalsIgnoreCase("save")) {
                     inventoryList.add(new ResetInventory(player.getUniqueId(), true));
                     return true;
-                } else if (args[0].equalsIgnoreCase("load")){
+                } else if (args[0].equalsIgnoreCase("load")) {
 
-                    if(!hasResetInventory(player.getUniqueId())){
+                    if (!hasResetInventory(player.getUniqueId())) {
                         player.sendMessage("§cAucun inventaire saved !");
                         return true;
                     }

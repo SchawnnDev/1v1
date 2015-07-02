@@ -14,13 +14,13 @@
 package fr.schawnndev.inventory;
 
 import lombok.Getter;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 
-import java.util.List;
 import java.util.Map;
 
 public class ResetItem {
@@ -30,6 +30,9 @@ public class ResetItem {
 
     @Getter
     private ItemMeta itemMeta;
+
+    @Getter
+    private String name;
 
     @Getter
     private short damage;
@@ -43,16 +46,17 @@ public class ResetItem {
     @Getter
     private Map<Enchantment, Integer> enchantments;
 
-    public ResetItem(Material material, ItemMeta itemMeta, int amount, Map<Enchantment, Integer> enchantments){
+    @Deprecated
+    public ResetItem(Material material, ItemMeta itemMeta, int amount, Map<Enchantment, Integer> enchantments) {
         this.material = material == null ? Material.AIR : material;
         this.itemMeta = itemMeta;
         this.amount = amount <= 0 ? 1 : amount;
-        this.damage = (short)-1;
+        this.damage = (short) -1;
         this.data = null;
         this.enchantments = enchantments;
     }
 
-    public ResetItem(Material material, ItemMeta itemMeta, int amount, short damage, Map<Enchantment, Integer> enchantments){
+    public ResetItem(Material material, ItemMeta itemMeta, int amount, short damage, Map<Enchantment, Integer> enchantments) {
         this.material = material == null ? Material.AIR : material;
         this.itemMeta = itemMeta;
         this.amount = amount <= 0 ? 1 : amount;
@@ -61,7 +65,7 @@ public class ResetItem {
         this.enchantments = enchantments;
     }
 
-    public ResetItem(Material material, ItemMeta itemMeta, int amount, short damage, MaterialData data, Map<Enchantment, Integer> enchantments){
+    public ResetItem(Material material, ItemMeta itemMeta, int amount, short damage, MaterialData data, Map<Enchantment, Integer> enchantments) {
         this.material = material == null ? Material.AIR : material;
         this.itemMeta = itemMeta;
         this.amount = amount <= 0 ? 1 : amount;
@@ -70,13 +74,22 @@ public class ResetItem {
         this.enchantments = enchantments;
     }
 
-    public ItemStack build(){
+    public ResetItem(Material material, String name, int amount, short damage, MaterialData data, Map<Enchantment, Integer> enchantments) {
+        this.material = material == null ? Material.AIR : material;
+        this.name = name;
+        this.amount = amount <= 0 ? 1 : amount;
+        this.damage = damage;
+        this.data = data;
+        this.enchantments = enchantments;
+    }
+
+    public ItemStack build() {
         ItemStack itemStack = null;
 
-        if(damage <= -1 && data == null)
+        if (damage <= -1 && data == null)
             itemStack = new ItemStack(material, amount);
         else if (damage > -1)
-            if(data == null) {
+            if (data == null) {
                 itemStack = new ItemStack(material, amount, damage);
             } else {
                 itemStack = new ItemStack(material, amount, damage);
@@ -84,15 +97,21 @@ public class ResetItem {
             }
 
 
-        if(itemStack == null)
+        if (itemStack == null)
             return new ItemStack(Material.AIR);
 
-        if(enchantments != null && enchantments.size() > 0)
-            for(Map.Entry<Enchantment,Integer> entry : enchantments.entrySet())
+        if (enchantments != null && enchantments.size() > 0)
+            for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet())
                 itemStack.addEnchantment(entry.getKey(), entry.getValue());
 
-        if(itemMeta != null)
+        if (itemMeta != null) {
             itemStack.setItemMeta(itemMeta);
+        } else if (itemMeta == null && name != null && !name.equalsIgnoreCase("aucun")) {
+            ItemMeta meta = itemStack.getItemMeta();
+            meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
+            itemStack.setItemMeta(meta);
+        }
+
 
         return itemStack;
     }

@@ -15,32 +15,15 @@ package fr.schawnndev.out;
 
 import fr.schawnndev.Main;
 import lombok.Getter;
-import org.bukkit.configuration.file.*;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
 public class FileManager {
-
-    public enum FileType {
-        COORDS(1, "Stockage de locations", coordsFile, coordsConfig),
-        INVENTORY(2, "Stockage d'inventaires", inventoryFile, inventoryConfig);
-
-        @Getter
-        private int id;
-        @Getter
-        private File file;
-        @Getter
-        private FileConfiguration fileConfiguration;
-
-        private FileType(int id, String description, File file, FileConfiguration fileConfiguration){
-            this.id = id;
-            this.file = file;
-            this.fileConfiguration = fileConfiguration;
-        }
-
-    }
 
     private static File coordsFile;
     private static FileConfiguration coordsConfig;
@@ -73,7 +56,7 @@ public class FileManager {
 
         Console.printMsg("Loading " + files.size() + " files....");
 
-        for(FileType fileType : files)
+        for (FileType fileType : files)
             Console.printMsg("Load " + fileType.getFile().getName() + " in " + fileType.getFile().getPath().toString());
 
         Console.printMsg("All files loaded !");
@@ -92,6 +75,25 @@ public class FileManager {
     public static void reload() {
         Console.printMsg("Reloading file");
         init();
+    }
+
+    public enum FileType {
+        COORDS(1, "Stockage de locations", coordsFile, coordsConfig),
+        INVENTORY(2, "Stockage d'inventaires", inventoryFile, inventoryConfig);
+
+        @Getter
+        private int id;
+        @Getter
+        private File file;
+        @Getter
+        private FileConfiguration fileConfiguration;
+
+        private FileType(int id, String description, File file, FileConfiguration fileConfiguration) {
+            this.id = id;
+            this.file = file;
+            this.fileConfiguration = fileConfiguration;
+        }
+
     }
 
 }

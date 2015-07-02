@@ -15,12 +15,12 @@ package fr.schawnndev.out;
 
 public class Console {
 
-    public static void printMsg(Object object){
-        System.out.println("\u001B[36m" + "[1vs1] " +"\u001B[37m" + object.toString() + "\u001B[0m");
+    public static void printMsg(Object object) {
+        System.out.println("\u001B[36m" + "[1vs1] " + "\u001B[37m" + object.toString() + "\u001B[0m");
     }
 
-    public static void printErr(Object object){
-        System.out.println("\u001B[36m" + "[1vs1] " +"\u001B[31m" + object.toString() + "\u001B[0m");
+    public static void printErr(Object object) {
+        System.out.println("\u001B[36m" + "[1vs1] " + "\u001B[31m" + object.toString() + "\u001B[0m");
     }
 
 }

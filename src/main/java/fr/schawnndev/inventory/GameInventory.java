@@ -15,9 +15,10 @@ package fr.schawnndev.inventory;
 
 import lombok.Getter;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.material.MaterialData;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class GameInventory {
 
@@ -34,59 +35,50 @@ public class GameInventory {
 
         Format:
 
-        id @ name @ 2:3:5 \ 2:3:5:salut \ 2:3:5
+        id @@ name @@ 2:3:5 \ 2:3:5:salut \ 2:3:5
 
 
 
      */
 
-    public GameInventory(String data){
-        String[] splitted = data.split(" @ ");
+    public GameInventory(String data) {
+        String[] splitted = data.split(" @@ ");
 
-        for(int i = 0; i < splitted.length; i++){
+        id = Integer.parseInt(splitted[0]);
+        name = splitted[1];
 
-            String split = splitted[i];
+        String[] items = splitted[2].split(" || ");
 
-            if(split != null){
-                if(i == 0) {
-                    this.id = Integer.parseInt(split);
-                } else if (i == 1) {
-                    this.name = split;
-                } else if (i > 1) {
+        for (int i = 0; i < items.length; i++) {
 
-                    String[] _split = split.split(" | ");
+            String[] itemData = items[i].split("::");
 
-                    for(int _i = 0; _i < _split.length; _i++){
+            int slot = Integer.parseInt(itemData[0]);
+            Material material = Material.getMaterial(Integer.parseInt(itemData[1]));
+            int amount = Integer.parseInt(itemData[2]);
+            short damage = Short.parseShort(itemData[3]);
+            MaterialData materialData = new MaterialData(material, Byte.parseByte(itemData[4]));
+            String displayName = itemData[5];
+            Map<Enchantment, Integer> enchantmentMap = new HashMap<>();
 
-                        String[] __split = _split[_i].split(":");
+            // Enchantments
 
-                        int slot = Integer.parseInt(__split[0]);
-                        Material material = Material.getMaterial(Integer.parseInt(__split[1]));
-                        int amout = Integer.parseInt(__split[2]);
-                        short damage = Short.parseShort(__split[3]);
+            if (!itemData[6].equalsIgnoreCase("aucun")) {
 
+                String[] enchantments = itemData[6].split("//");
 
-                   //     ResetItem resetItem = new ResetItem();
+                for (int e = 0; e < enchantments.length; e++)
+                    enchantmentMap.put(Enchantment.getById(Integer.valueOf(enchantments[e].split("#")[1])), Integer.valueOf(enchantments[e].split("#")[0]));
 
-
-                    }
-
-
-
-
-                }
             }
 
-
-
-
+            this.items = new ArrayList<>();
+            this.items.add(new AbstractMap.SimpleEntry<Integer, ResetItem>(slot, new ResetItem(material, displayName, amount, damage, materialData, enchantmentMap)));
 
         }
-
-
     }
 
-    public String serialize(){
+    public String serialize() {
         return "hello";
     }
 

@@ -42,24 +42,24 @@ public class ResetInventory {
     @Getter
     private boolean isSaved = false;
 
-    public ResetInventory(UUID uuid, boolean forceClean){
+    public ResetInventory(UUID uuid, boolean forceClean) {
         this.uuid = uuid;
         this.items = new ArrayList<>();
         this.effects = new ArrayList<>();
 
         save();
 
-        if(forceClean)
+        if (forceClean)
             clean();
 
     }
 
-    public Player getPlayer(){
+    public Player getPlayer() {
         return Bukkit.getPlayer(uuid);
     }
 
-    public void clean(){
-        if(!isSaved)
+    public void clean() {
+        if (!isSaved)
             save();
 
         final Player player = getPlayer();
@@ -68,14 +68,14 @@ public class ResetInventory {
         player.getInventory().clear();
         player.getInventory().setArmorContents(null);
 
-        for(PotionEffect potionEffect : player.getActivePotionEffects())
+        for (PotionEffect potionEffect : player.getActivePotionEffects())
             player.removePotionEffect(potionEffect.getType());
 
         player.updateInventory();
 
     }
 
-    public void save(){
+    public void save() {
         final Player player = getPlayer();
 
         this.exp = player.getExp();
@@ -84,11 +84,11 @@ public class ResetInventory {
 
         Inventory inventory = player.getInventory();
 
-        for(int slot = 0; slot < inventory.getSize(); slot++){
+        for (int slot = 0; slot < inventory.getSize(); slot++) {
 
             final ItemStack itemStack = inventory.getItem(slot);
 
-            if(itemStack != null)
+            if (itemStack != null)
                 items.add(new AbstractMap.SimpleEntry<>(slot, new ResetItem(itemStack.getType(), itemStack.getItemMeta(), itemStack.getAmount(), itemStack.getDurability(), itemStack.getData(), itemStack.getEnchantments())));
 
         }
@@ -100,22 +100,22 @@ public class ResetInventory {
         isSaved = true;
     }
 
-    public void reset(){
-        if(!isSaved)
+    public void reset() {
+        if (!isSaved)
             return;
 
         final Player player = getPlayer();
 
-        if(player != null){
+        if (player != null) {
             clean();
 
             player.setExp(this.exp);
             player.setLevel(this.level);
 
-            for(Map.Entry<Integer, ResetItem> items : getItems())
+            for (Map.Entry<Integer, ResetItem> items : getItems())
                 player.getInventory().setItem(items.getKey(), items.getValue().build());
 
-            for(PotionEffect potionEffect : getEffects())
+            for (PotionEffect potionEffect : getEffects())
                 player.addPotionEffect(potionEffect);
 
             player.updateInventory();
