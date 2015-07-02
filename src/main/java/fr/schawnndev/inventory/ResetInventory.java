@@ -16,10 +16,11 @@ package fr.schawnndev.inventory;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
-import java.security.KeyStore;
+import java.util.AbstractMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -30,13 +31,13 @@ public class ResetInventory {
     private UUID uuid;
 
     @Getter
-    private List<Map.Entry<Integer, ItemStack>> items;
+    private List<Map.Entry<Integer, ResetItem>> items;
 
     @Getter
     private float exp;
 
     @Getter
-    private List<Map.Entry<Integer, PotionEffect>> effects;
+    private List<PotionEffect> effects;
 
     @Getter
     private boolean isSaved = false;
@@ -45,7 +46,9 @@ public class ResetInventory {
         this.uuid = uuid;
 
         save();
-        clean();
+
+        if(forceClean)
+            clean();
 
     }
 
@@ -67,7 +70,21 @@ public class ResetInventory {
 
         this.exp = player.getExp();
 
-        for(ItemStack itemStack : player.getInventory())
+        Inventory inventory = player.getInventory();
+
+        for(int slot = 0; slot < inventory.getSize(); slot++){
+
+            ItemStack itemStack = inventory.getItem(slot);
+
+            if(itemStack != null){
+                items.add(new AbstractMap.SimpleEntry<>(slot, new ResetItem(itemStack.getType(), itemStack.getItemMeta(), itemStack.getAmount(), itemStack.getDurability(), itemStack.getData().getData())))
+            }
+
+        }
+
+        effects.addAll(player.getActivePotionEffects());
+
+
 
 
         isSaved = true;
