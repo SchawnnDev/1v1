@@ -13,6 +13,8 @@
 
 package fr.schawnndev;
 
+import fr.schawnndev.events.PlayerListener;
+import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -21,13 +23,25 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class Main extends JavaPlugin {
 
+    @Getter
+    private static Main instance;
+
     @Override
     public void onEnable() {
-        super.onEnable();
+        instance = this;
+        init();
     }
 
     @Override
     public void onDisable() {
-        super.onDisable();
+
+    }
+
+    void init(){
+
+        // Listeners
+
+        new PlayerListener();
+
     }
 }
