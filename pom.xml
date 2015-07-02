@@ -29,7 +29,7 @@
     </repositories>
 
     <scm>
-        <connection></connection>
+        <connection>scm:git@github.com:SchawnnDev/1v1.git</connection>
     </scm>
 
     <dependencies>
