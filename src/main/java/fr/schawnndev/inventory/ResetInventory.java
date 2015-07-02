@@ -80,6 +80,7 @@ public class ResetInventory {
 
         this.exp = player.getExp();
         this.level = player.getLevel();
+        player.setLevel(0);
 
         Inventory inventory = player.getInventory();
 

@@ -14,6 +14,7 @@
 package fr.schawnndev.inventory;
 
 import lombok.Getter;
+import org.bukkit.Material;
 
 import java.util.List;
 import java.util.Map;
@@ -59,6 +60,15 @@ public class GameInventory {
 
                         String[] __split = _split[_i].split(":");
 
+                        int slot = Integer.parseInt(__split[0]);
+                        Material material = Material.getMaterial(Integer.parseInt(__split[1]));
+                        int amout = Integer.parseInt(__split[2]);
+                        short damage = Short.parseShort(__split[3]);
+
+
+                   //     ResetItem resetItem = new ResetItem();
+
+
                     }
 
 
@@ -77,7 +87,7 @@ public class GameInventory {
     }
 
     public String serialize(){
-
+        return "hello";
     }
 
 }

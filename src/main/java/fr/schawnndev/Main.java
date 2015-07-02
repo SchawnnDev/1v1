@@ -92,6 +92,11 @@ public class Main extends JavaPlugin {
             final Player player = (Player) sender;
 
             if(args.length == 0){
+
+                if(player.getItemInHand() != null && player.getItemInHand().getData() != null)
+                    System.out.println(player.getItemInHand().getData().toString());
+
+
                 player.sendMessage("§cPas assez d'arguments !");
                 player.sendMessage(" ");
                 player.sendMessage("§f------ §bHelp §f------");
