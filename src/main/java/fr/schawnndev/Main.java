@@ -15,6 +15,7 @@ package fr.schawnndev;
 
 import fr.schawnndev.events.PlayerListener;
 import fr.schawnndev.inventory.ResetInventory;
+import fr.schawnndev.out.FileManager;
 import lombok.Getter;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -48,6 +49,10 @@ public class Main extends JavaPlugin {
         // Listeners
 
         new PlayerListener();
+
+        // Files
+
+        FileManager.init();
 
     }
 

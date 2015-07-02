@@ -18,6 +18,7 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.material.MaterialData;
 
 import java.util.List;
 import java.util.Map;
@@ -34,7 +35,7 @@ public class ResetItem {
     private short damage;
 
     @Getter
-    private byte data;
+    private MaterialData data;
 
     @Getter
     private int amount;
@@ -47,7 +48,7 @@ public class ResetItem {
         this.itemMeta = itemMeta;
         this.amount = amount <= 0 ? 1 : amount;
         this.damage = (short)-1;
-        this.data = (byte)-1;
+        this.data = null;
         this.enchantments = enchantments;
     }
 
@@ -56,11 +57,11 @@ public class ResetItem {
         this.itemMeta = itemMeta;
         this.amount = amount <= 0 ? 1 : amount;
         this.damage = damage;
-        this.data = (byte)-1;
+        this.data = null;
         this.enchantments = enchantments;
     }
 
-    public ResetItem(Material material, ItemMeta itemMeta, int amount, short damage, byte data, Map<Enchantment, Integer> enchantments){
+    public ResetItem(Material material, ItemMeta itemMeta, int amount, short damage, MaterialData data, Map<Enchantment, Integer> enchantments){
         this.material = material == null ? Material.AIR : material;
         this.itemMeta = itemMeta;
         this.amount = amount <= 0 ? 1 : amount;
@@ -72,17 +73,21 @@ public class ResetItem {
     public ItemStack build(){
         ItemStack itemStack = null;
 
-        if(damage <= -1 && data <= -1)
+        if(damage <= -1 && data == null)
             itemStack = new ItemStack(material, amount);
-        else if (damage > -1 && data <= -1)
-            itemStack = new ItemStack(material, amount, damage);
-        else if (damage > -1 && data > -1)
-            itemStack = new ItemStack(material, amount, damage, data);
+        else if (damage > -1)
+            if(data == null) {
+                itemStack = new ItemStack(material, amount, damage);
+            } else {
+                itemStack = new ItemStack(material, amount, damage);
+                itemStack.setData(data);
+            }
+
 
         if(itemStack == null)
             return new ItemStack(Material.AIR);
 
-        if(enchantments.size() > 0)
+        if(enchantments != null && enchantments.size() > 0)
             for(Map.Entry<Enchantment,Integer> entry : enchantments.entrySet())
                 itemStack.addEnchantment(entry.getKey(), entry.getValue());
 

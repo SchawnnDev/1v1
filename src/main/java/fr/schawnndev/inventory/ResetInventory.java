@@ -41,6 +41,8 @@ public class ResetInventory {
 
     public ResetInventory(UUID uuid, boolean forceClean){
         this.uuid = uuid;
+        this.items = new ArrayList<>();
+        this.effects = new ArrayList<>();
 
         save();
 
@@ -80,7 +82,7 @@ public class ResetInventory {
             final ItemStack itemStack = inventory.getItem(slot);
 
             if(itemStack != null)
-                items.add(new AbstractMap.SimpleEntry<>(slot, new ResetItem(itemStack.getType(), itemStack.getItemMeta(), itemStack.getAmount(), itemStack.getDurability(), itemStack.getData().getData(), itemStack.getEnchantments())));
+                items.add(new AbstractMap.SimpleEntry<>(slot, new ResetItem(itemStack.getType(), itemStack.getItemMeta(), itemStack.getAmount(), itemStack.getDurability(), itemStack.getData(), itemStack.getEnchantments())));
 
         }
 
