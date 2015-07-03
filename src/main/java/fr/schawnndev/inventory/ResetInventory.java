@@ -15,10 +15,12 @@ package fr.schawnndev.inventory;
 
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.MaterialData;
 import org.bukkit.potion.PotionEffect;
 
 import java.util.*;
@@ -48,7 +50,21 @@ public class ResetInventory {
         this.items = new ArrayList<>();
         this.effects = new ArrayList<>();
 
-        save();
+        save(true);
+
+        if (forceClean)
+            clean();
+
+        System.out.println(serialize(1, "soup"));
+
+    }
+
+    public ResetInventory(UUID uuid, List<Map.Entry<Integer, ResetItem>> items, boolean forceClean) {
+        this.uuid = uuid;
+        this.items = new ArrayList<>();
+        this.effects = new ArrayList<>();
+
+        save(false);
 
         if (forceClean)
             clean();
@@ -63,7 +79,7 @@ public class ResetInventory {
 
     public void clean() {
         if (!isSaved)
-            save();
+            save(true);
 
         final Player player = getPlayer();
 
@@ -78,21 +94,25 @@ public class ResetInventory {
 
     }
 
-    public void save() {
+    public void save(boolean withItems) {
         final Player player = getPlayer();
 
         this.exp = player.getExp();
         this.level = player.getLevel();
         player.setLevel(0);
 
-        Inventory inventory = player.getInventory();
+        if(withItems) {
 
-        for (int slot = 0; slot < inventory.getSize(); slot++) {
+            Inventory inventory = player.getInventory();
 
-            final ItemStack itemStack = inventory.getItem(slot);
+            for (int slot = 0; slot < inventory.getSize(); slot++) {
 
-            if (itemStack != null)
-                items.add(new AbstractMap.SimpleEntry<>(slot, new ResetItem(itemStack.getType(), itemStack.getItemMeta(), itemStack.getAmount(), itemStack.getDurability(), itemStack.getData(), itemStack.getEnchantments())));
+                final ItemStack itemStack = inventory.getItem(slot);
+
+                if (itemStack != null)
+                    items.add(new AbstractMap.SimpleEntry<>(slot, new ResetItem(itemStack.getType(), itemStack.getItemMeta(), itemStack.getAmount(), itemStack.getDurability(), itemStack.getData(), itemStack.getEnchantments())));
+
+            }
 
         }
 
@@ -131,6 +151,7 @@ public class ResetInventory {
 
     public String serialize(int id, String inventoryName) {
         String data = "";
+        int count = 0;
 
         for(Map.Entry<Integer, ResetItem> item : items){
 
@@ -142,7 +163,7 @@ public class ResetInventory {
             if(itemStack.hasItemMeta() && itemStack.getItemMeta().getDisplayName() != null)
                 displayName = itemStack.getItemMeta().getDisplayName();
 
-            String add = "" + slot + "::" + itemStack.getTypeId() + "::" + itemStack.getAmount() + "::"
+            String add = (count == 0 ? "" : " || ") + slot + "::" + itemStack.getTypeId() + "::" + itemStack.getAmount() + "::"
                     + itemStack.getDurability() + "::" + displayName + "::";
 
             Set<Map.Entry<Enchantment, Integer>> enchantments = itemStack.getEnchantments().entrySet();
@@ -159,11 +180,55 @@ public class ResetInventory {
                     }
 
                 }
+            } else {
+                add += "aucun";
             }
+
+            count++;
+            data += add;
 
         }
 
-        return id + " @@ " + inventoryName + " @@ " + data;
+        return id + " /// " + inventoryName + " /// " + data;
+    }
+
+    public ResetInventory deserialize(UUID uuid, String data){
+        String[] splitted = data.split(" /// ");
+        //
+        int id = Integer.parseInt(splitted[0]);
+        String name = splitted[1];
+        List<Map.Entry<Integer, ResetItem>> itemList = new ArrayList<>();
+
+        String[] items = splitted[2].split(" || ");
+
+        for (int i = 0; i < items.length; i++) {
+
+            String[] itemData = items[i].split("::");
+
+            int slot = Integer.parseInt(itemData[0]);
+            Material material = Material.getMaterial(Integer.parseInt(itemData[1]));
+            int amount = Integer.parseInt(itemData[2]);
+            short damage = Short.parseShort(itemData[3]);
+            MaterialData materialData = new MaterialData(material, Byte.parseByte(itemData[4]));
+            String displayName = itemData[5];
+            Map<Enchantment, Integer> enchantmentMap = new HashMap<>();
+
+            // Enchantments
+
+            if (!itemData[6].equalsIgnoreCase("aucun")) {
+
+                String[] enchantments = itemData[6].split("//");
+
+                for (int e = 0; e < enchantments.length; e++)
+                    enchantmentMap.put(Enchantment.getById(Integer.valueOf(enchantments[e].split("#")[0])), Integer.valueOf(enchantments[e].split("#")[1]));
+
+            }
+
+            itemList.add(new AbstractMap.SimpleEntry<>(slot, new ResetItem(material, displayName, amount, damage, materialData, enchantmentMap)));
+
+        }
+
+        return new ResetInventory(uuid, itemList, true);
     }
 
 

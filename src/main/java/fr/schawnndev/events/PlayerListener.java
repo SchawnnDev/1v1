@@ -14,13 +14,23 @@
 package fr.schawnndev.events;
 
 import fr.schawnndev.Main;
+import fr.schawnndev.inventory.InventoryManager;
+import fr.schawnndev.inventory.ResetInventory;
 import org.bukkit.Bukkit;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 
 public class PlayerListener implements Listener {
 
     public PlayerListener() {
         Bukkit.getPluginManager().registerEvents(this, Main.getInstance());
+    }
+
+    @EventHandler
+    public void onJoin(PlayerJoinEvent e){
+        ResetInventory resetInventory = new ResetInventory(e.getPlayer().getUniqueId(), InventoryManager.getGameInventory(1).getItems(), true);
+        resetInventory.reset();
     }
 
 }

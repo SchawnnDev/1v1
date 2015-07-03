@@ -24,26 +24,16 @@ import java.util.*;
 public class GameInventory {
 
     @Getter
-    private List<Map.Entry<Integer, ResetItem>> items;
-
-    @Getter
     private int id;
 
     @Getter
     private String name;
 
-    /*
-
-        Format:
-
-        id @@ name @@ 2:3:5 \ 2:3:5:salut \ 2:3:5
-
-
-
-     */
+    @Getter
+    private List<Map.Entry<Integer, ResetItem>> items;
 
     public GameInventory(String data) {
-        String[] splitted = data.split(" @@ ");
+        String[] splitted = data.split(" /// ");
 
         id = Integer.parseInt(splitted[0]);
         name = splitted[1];
@@ -74,13 +64,14 @@ public class GameInventory {
             }
 
             this.items = new ArrayList<>();
-            this.items.add(new AbstractMap.SimpleEntry<Integer, ResetItem>(slot, new ResetItem(material, displayName, amount, damage, materialData, enchantmentMap)));
+            this.items.add(new AbstractMap.SimpleEntry<>(slot, new ResetItem(material, displayName, amount, damage, materialData, enchantmentMap)));
 
         }
     }
 
     public String serialize() {
         String data = "";
+        int count = 0;
 
         for(Map.Entry<Integer, ResetItem> item : items){
 
@@ -92,7 +83,7 @@ public class GameInventory {
             if(itemStack.hasItemMeta() && itemStack.getItemMeta().getDisplayName() != null)
                 displayName = itemStack.getItemMeta().getDisplayName();
 
-            String add = "" + slot + "::" + itemStack.getTypeId() + "::" + itemStack.getAmount() + "::"
+            String add = (count == 0 ? "" : " || ") + slot + "::" + itemStack.getTypeId() + "::" + itemStack.getAmount() + "::"
                        + itemStack.getDurability() + "::" + displayName + "::";
 
             Set<Map.Entry<Enchantment, Integer>> enchantments = itemStack.getEnchantments().entrySet();
@@ -109,11 +100,16 @@ public class GameInventory {
                     }
 
                 }
+            } else {
+                add += "aucun";
             }
+
+            count++;
+            data += add;
 
         }
 
-        return id + " @@ " + name + " @@ " + data;
+        return id + " /// " + name + " /// " + data;
     }
 
 }

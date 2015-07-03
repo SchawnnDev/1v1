@@ -14,6 +14,8 @@
 package fr.schawnndev;
 
 import fr.schawnndev.events.PlayerListener;
+import fr.schawnndev.inventory.GameInventory;
+import fr.schawnndev.inventory.InventoryManager;
 import fr.schawnndev.inventory.ResetInventory;
 import fr.schawnndev.out.FileManager;
 import lombok.Getter;
@@ -57,6 +59,10 @@ public class Main extends JavaPlugin {
         // Files
 
         FileManager.init();
+
+        // Inventories
+
+        new InventoryManager();
 
     }
 
