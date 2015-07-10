@@ -38,28 +38,47 @@ public class GameInventory {
         id = Integer.parseInt(splitted[0]);
         name = splitted[1];
 
-        String[] items = splitted[2].split(" || ");
+        List<String> items = Arrays.asList(splitted[2].split("^^"));
 
-        for (int i = 0; i < items.length; i++) {
+     /*
 
-            String[] itemData = items[i].split("::");
+        String l = "items: ";
 
-            int slot = Integer.parseInt(itemData[0]);
-            Material material = Material.getMaterial(Integer.parseInt(itemData[1]));
-            int amount = Integer.parseInt(itemData[2]);
-            short damage = Short.parseShort(itemData[3]);
-            MaterialData materialData = new MaterialData(material, Byte.parseByte(itemData[4]));
-            String displayName = itemData[5];
+        for(String it : items)
+            l+= it + " ^^ ";
+
+        System.out.println(l);
+
+     */
+
+        for (int i = 0; i < items.size(); i++) {
+
+            List<String> itemData = Arrays.asList(items.get(i).split("/:/"));
+
+            if(InventoryManager.i < 2) {
+                System.out.println("======== info ========");
+                for (int x = 0; x < 5; x++)
+                    System.out.println(itemData.get(x));
+                InventoryManager.i++;
+                System.out.println("====== fin info ======");
+            }
+
+            int slot = Integer.parseInt(itemData.get(0));
+            Material material = Material.getMaterial(Integer.parseInt(itemData.get(1)));
+            int amount = Integer.parseInt(itemData.get(2));
+            short damage = Short.parseShort(itemData.get(3));
+            MaterialData materialData = new MaterialData(material, Byte.parseByte(itemData.get(4)));
+            String displayName = itemData.get(5);
             Map<Enchantment, Integer> enchantmentMap = new HashMap<>();
 
             // Enchantments
 
-            if (!itemData[6].equalsIgnoreCase("aucun")) {
+            if (!itemData.get(6).equalsIgnoreCase("aucun")) {
 
-                String[] enchantments = itemData[6].split("//");
+                List<String> enchantments = Arrays.asList(itemData.get(6).split("//"));
 
-                for (int e = 0; e < enchantments.length; e++)
-                    enchantmentMap.put(Enchantment.getById(Integer.valueOf(enchantments[e].split("#")[0])), Integer.valueOf(enchantments[e].split("#")[1]));
+                for (int e = 0; e < enchantments.size(); e++)
+                    enchantmentMap.put(Enchantment.getById(Integer.valueOf(enchantments.get(e).split("#")[0])), Integer.valueOf(enchantments.get(e).split("#")[1]));
 
             }
 
@@ -77,7 +96,7 @@ public class GameInventory {
 
             int slot = item.getKey();
             ItemStack itemStack = item.getValue().build();
-            String displayName = "aucun";
+            String displayName = "none";
 
 
             if(itemStack.hasItemMeta() && itemStack.getItemMeta().getDisplayName() != null)

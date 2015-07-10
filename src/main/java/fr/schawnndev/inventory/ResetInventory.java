@@ -195,8 +195,8 @@ public class ResetInventory {
     public ResetInventory deserialize(UUID uuid, String data){
         String[] splitted = data.split(" /// ");
         //
-        int id = Integer.parseInt(splitted[0]);
-        String name = splitted[1];
+        int id = Integer.parseInt((String) splitted[0]);
+        String name = (String) splitted[1];
         List<Map.Entry<Integer, ResetItem>> itemList = new ArrayList<>();
 
         String[] items = splitted[2].split(" || ");
@@ -227,6 +227,8 @@ public class ResetInventory {
             itemList.add(new AbstractMap.SimpleEntry<>(slot, new ResetItem(material, displayName, amount, damage, materialData, enchantmentMap)));
 
         }
+
+
 
         return new ResetInventory(uuid, itemList, true);
     }
