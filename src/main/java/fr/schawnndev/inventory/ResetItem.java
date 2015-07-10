@@ -102,11 +102,11 @@ public class ResetItem {
 
         if (enchantments != null && enchantments.size() > 0)
             for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet())
-                itemStack.addEnchantment(entry.getKey(), entry.getValue());
+                itemStack.addUnsafeEnchantment(entry.getKey(), entry.getValue());
 
         if (itemMeta != null) {
             itemStack.setItemMeta(itemMeta);
-        } else if (itemMeta == null && name != null && !name.equalsIgnoreCase("aucun")) {
+        } else if (itemMeta == null && name != null && !name.equalsIgnoreCase("none")) {
             ItemMeta meta = itemStack.getItemMeta();
             meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
             itemStack.setItemMeta(meta);

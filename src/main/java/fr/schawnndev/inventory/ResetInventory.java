@@ -61,10 +61,11 @@ public class ResetInventory {
 
     public ResetInventory(UUID uuid, List<Map.Entry<Integer, ResetItem>> items, boolean forceClean) {
         this.uuid = uuid;
-        this.items = new ArrayList<>();
+        this.items = items;
         this.effects = new ArrayList<>();
 
-        save(false);
+        // save(false);
+        isSaved = true;
 
         if (forceClean)
             clean();

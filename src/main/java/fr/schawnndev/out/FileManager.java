@@ -65,7 +65,7 @@ public class FileManager {
         if(newInventoryFile) {
 
             List<String> defaultList = new ArrayList<>();
-            defaultList.add("1 /// soup /// 0::295::1::0::aucun::aucun || 1::373::1::16419::aucun::aucun || 2::372::64::0::aucun::aucun || 4::371::64::0::aucun::aucun || 5::351::64::10::aucun::aucun || 7::373::1::8228::aucun::aucun || 8::294::1::14::aucun::aucun || 10::373::1::16454::aucun::aucun || 11::373::1::16393::aucun::aucun || 12::373::1::8265::aucun::aucun || 13::373::1::16456::aucun::aucun || 14::399::64::0::aucun::aucun || 15::296::64::0::aucun::aucun || 16::373::1::8230::aucun::aucun || 29::403::1::0::aucun::aucun || 32::373::1::16450::aucun::aucun || 34::266::64::0::aucun::aucun");
+            defaultList.add("'1 /// soup /// 0/:/295/:/1/:/0/:/0/:/none/:/aucun/::/1/:/373/:/1/:/16419/:/0/:/none/:/aucun/::/2/:/372/:/64/:/0/:/0/:/none/:/aucun/::/4/:/371/:/64/:/0/:/0/:/none/:/aucun/::/5/:/351/:/64/:/10/:/0/:/none/:/aucun/::/7/:/373/:/1/:/8228/:/0/:/none/:/aucun/::/8/:/294/:/1/:/14/:/0/:/none/:/aucun/::/10/:/373/:/1/:/16454/:/0/:/none/:/aucun/::/11/:/373/:/1/:/16393/:/0/:/none/:/aucun/::/12/:/373/:/1/:/8265/:/0/:/none/:/aucun/::/13/:/373/:/1/:/16456/:/0/:/none/:/aucun/::/14/:/399/:/64/:/0/:/0/:/none/:/aucun/::/15/:/296/:/64/:/0/:/0/:/none/:/aucun/::/16/:/373/:/1/:/8230/:/0/:/none/:/aucun/::/29/:/403/:/1/:/0/:/0/:/none/:/aucun/::/32/:/373/:/1/:/16450/:/0/:/none/:/aucun/::/34/:/266/:/64/:/0/:/0/:/none/:/aucun'");
             defaultList.add("");
 
             inventoryConfig.set("inventories", defaultList);

@@ -24,8 +24,6 @@ public class InventoryManager {
     @Getter
     private static List<GameInventory> gameInventoryList = new ArrayList<>();
 
-    public static int i = 0;
-
     public InventoryManager(){
         if(FileManager.getInventoryConfig().contains("inventories")){
             for(String file : (List<String>)FileManager.getInventoryConfig().getList("inventories")){

@@ -33,6 +33,8 @@ public class GameInventory {
     private List<Map.Entry<Integer, ResetItem>> items;
 
     public GameInventory(String data) {
+        this.items = new ArrayList<>();
+
         String[] splitted = data.split(" /// ");
 
         id = Integer.parseInt(splitted[0]);
@@ -62,7 +64,6 @@ public class GameInventory {
 
             }
 
-            this.items = new ArrayList<>();
             this.items.add(new AbstractMap.SimpleEntry<>(slot, new ResetItem(material, displayName, amount, damage, materialData, enchantmentMap)));
 
         }
