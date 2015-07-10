@@ -157,14 +157,14 @@ public class ResetInventory {
 
             int slot = item.getKey();
             ItemStack itemStack = item.getValue().build();
-            String displayName = "aucun";
+            String displayName = "none";
 
 
             if(itemStack.hasItemMeta() && itemStack.getItemMeta().getDisplayName() != null)
                 displayName = itemStack.getItemMeta().getDisplayName();
 
-            String add = (count == 0 ? "" : " || ") + slot + "::" + itemStack.getTypeId() + "::" + itemStack.getAmount() + "::"
-                    + itemStack.getDurability() + "::" + displayName + "::";
+            String add = (count == 0 ? "" : "/::/") + slot + "/:/" + itemStack.getTypeId() + "/:/" + itemStack.getAmount() + "/:/"
+                    + itemStack.getDurability() + "/:/" + itemStack.getData().getData() + "/:/" + displayName + "/:/";
 
             Set<Map.Entry<Enchantment, Integer>> enchantments = itemStack.getEnchantments().entrySet();
 
@@ -192,35 +192,35 @@ public class ResetInventory {
         return id + " /// " + inventoryName + " /// " + data;
     }
 
-    public ResetInventory deserialize(UUID uuid, String data){
+
+    public ResetInventory deserialize(UUID uuid, String data) {
         String[] splitted = data.split(" /// ");
         //
-        int id = Integer.parseInt((String) splitted[0]);
-        String name = (String) splitted[1];
+        int id = Integer.parseInt(splitted[0]);
+        String name = splitted[1];
         List<Map.Entry<Integer, ResetItem>> itemList = new ArrayList<>();
 
-        String[] items = splitted[2].split(" || ");
+        List<String> items = Arrays.asList(splitted[2].split("/::/"));
 
-        for (int i = 0; i < items.length; i++) {
+        for (int i = 0; i < items.size(); i++) {
+            List<String> itemData = Arrays.asList(items.get(i).split("/:/"));
 
-            String[] itemData = items[i].split("::");
-
-            int slot = Integer.parseInt(itemData[0]);
-            Material material = Material.getMaterial(Integer.parseInt(itemData[1]));
-            int amount = Integer.parseInt(itemData[2]);
-            short damage = Short.parseShort(itemData[3]);
-            MaterialData materialData = new MaterialData(material, Byte.parseByte(itemData[4]));
-            String displayName = itemData[5];
+            int slot = Integer.parseInt(itemData.get(0));
+            Material material = Material.getMaterial(Integer.parseInt(itemData.get(1)));
+            int amount = Integer.parseInt(itemData.get(2));
+            short damage = Short.parseShort(itemData.get(3));
+            MaterialData materialData = new MaterialData(material, Byte.parseByte(itemData.get(4)));
+            String displayName = itemData.get(5);
             Map<Enchantment, Integer> enchantmentMap = new HashMap<>();
 
             // Enchantments
 
-            if (!itemData[6].equalsIgnoreCase("aucun")) {
+            if (!itemData.get(6).equalsIgnoreCase("aucun")) {
 
-                String[] enchantments = itemData[6].split("//");
+                List<String> enchantments = Arrays.asList(itemData.get(6).split("//"));
 
-                for (int e = 0; e < enchantments.length; e++)
-                    enchantmentMap.put(Enchantment.getById(Integer.valueOf(enchantments[e].split("#")[0])), Integer.valueOf(enchantments[e].split("#")[1]));
+                for (int e = 0; e < enchantments.size(); e++)
+                    enchantmentMap.put(Enchantment.getById(Integer.valueOf(enchantments.get(e).split("#")[0])), Integer.valueOf(enchantments.get(e).split("#")[1]));
 
             }
 
@@ -228,10 +228,7 @@ public class ResetInventory {
 
         }
 
-
-
         return new ResetInventory(uuid, itemList, true);
     }
-
 
 }

@@ -38,30 +38,10 @@ public class GameInventory {
         id = Integer.parseInt(splitted[0]);
         name = splitted[1];
 
-        List<String> items = Arrays.asList(splitted[2].split("^^"));
-
-     /*
-
-        String l = "items: ";
-
-        for(String it : items)
-            l+= it + " ^^ ";
-
-        System.out.println(l);
-
-     */
+        List<String> items = Arrays.asList(splitted[2].split("/::/"));
 
         for (int i = 0; i < items.size(); i++) {
-
             List<String> itemData = Arrays.asList(items.get(i).split("/:/"));
-
-            if(InventoryManager.i < 2) {
-                System.out.println("======== info ========");
-                for (int x = 0; x < 5; x++)
-                    System.out.println(itemData.get(x));
-                InventoryManager.i++;
-                System.out.println("====== fin info ======");
-            }
 
             int slot = Integer.parseInt(itemData.get(0));
             Material material = Material.getMaterial(Integer.parseInt(itemData.get(1)));
@@ -102,8 +82,8 @@ public class GameInventory {
             if(itemStack.hasItemMeta() && itemStack.getItemMeta().getDisplayName() != null)
                 displayName = itemStack.getItemMeta().getDisplayName();
 
-            String add = (count == 0 ? "" : " || ") + slot + "::" + itemStack.getTypeId() + "::" + itemStack.getAmount() + "::"
-                       + itemStack.getDurability() + "::" + displayName + "::";
+            String add = (count == 0 ? "" : "/::/") + slot + "/:/" + itemStack.getTypeId() + "/:/" + itemStack.getAmount() + "/:/"
+                       + itemStack.getDurability() + "/:/" + itemStack.getData().getData() + "/:/" + displayName + "/:/";
 
             Set<Map.Entry<Enchantment, Integer>> enchantments = itemStack.getEnchantments().entrySet();
 
