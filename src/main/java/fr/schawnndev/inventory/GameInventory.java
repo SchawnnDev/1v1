@@ -51,6 +51,19 @@ public class GameInventory {
             short damage = Short.parseShort(itemData.get(3));
             MaterialData materialData = new MaterialData(material, Byte.parseByte(itemData.get(4)));
             String displayName = itemData.get(5);
+
+            if(displayName.contains("!e!"))
+                displayName.replace("!e!", "é");
+
+            if(displayName.contains("!a!"))
+                displayName.replace("!a!", "à");
+
+            if(displayName.contains("!e-!"))
+                displayName.replace("!e-!", "è");
+
+            if(displayName.contains("!c!"))
+                displayName.replace("!c!", "ç");
+
             Map<Enchantment, Integer> enchantmentMap = new HashMap<>();
 
             // Enchantments
@@ -79,9 +92,20 @@ public class GameInventory {
             ItemStack itemStack = item.getValue().build();
             String displayName = "none";
 
-
             if(itemStack.hasItemMeta() && itemStack.getItemMeta().getDisplayName() != null)
                 displayName = itemStack.getItemMeta().getDisplayName();
+
+            if(displayName.contains("é"))
+                displayName.replace("é", "!e!");
+
+            if(displayName.contains("à"))
+                displayName.replace("à", "!a!");
+
+            if(displayName.contains("è"))
+                displayName.replace("è", "!e-!");
+
+            if(displayName.contains("ç"))
+                displayName.replace("ç", "!c!");
 
             String add = (count == 0 ? "" : "/::/") + slot + "/:/" + itemStack.getTypeId() + "/:/" + itemStack.getAmount() + "/:/"
                        + itemStack.getDurability() + "/:/" + itemStack.getData().getData() + "/:/" + displayName + "/:/";
