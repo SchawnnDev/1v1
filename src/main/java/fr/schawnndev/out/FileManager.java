@@ -26,30 +26,30 @@ import java.util.List;
 
 public class FileManager {
 
-    private static File coordsFile;
+    private static File arenasFile;
     @Getter
-    private static FileConfiguration coordsConfig;
+    private static FileConfiguration arenasConfig;
     //
     private static File inventoryFile;
     @Getter
     private static FileConfiguration inventoryConfig;
 
     public static void init() {
-        boolean newCoordsFile = false;
+        boolean newArenasFile = false;
         boolean newInventoryFile = false;
 
         File pluginFolder = new File(Main.getInstance().getDataFolder().getPath());
 
-        coordsFile = new File(Main.getInstance().getDataFolder().getPath() + "/coords.yml");
+        arenasFile = new File(Main.getInstance().getDataFolder().getPath() + "/arenas.yml");
         inventoryFile = new File(Main.getInstance().getDataFolder().getPath() + "/inventories.yml");
 
         try {
             if (!pluginFolder.exists())
                 pluginFolder.mkdirs();
 
-            if (!coordsFile.exists()) {
-                coordsFile.createNewFile();
-                newCoordsFile = true;
+            if (!arenasFile.exists()) {
+                arenasFile.createNewFile();
+                newArenasFile = true;
             }
             if (!inventoryFile.exists()) {
                 inventoryFile.createNewFile();
@@ -59,7 +59,7 @@ public class FileManager {
             e.printStackTrace();
         }
 
-        coordsConfig = YamlConfiguration.loadConfiguration(coordsFile);
+        arenasConfig = YamlConfiguration.loadConfiguration(arenasFile);
         inventoryConfig = YamlConfiguration.loadConfiguration(inventoryFile);
 
         if(newInventoryFile) {
@@ -69,6 +69,17 @@ public class FileManager {
 
             inventoryConfig.set("inventories", defaultList);
             save(FileType.INVENTORY);
+
+        }
+
+        if(newArenasFile){
+
+            List<String> defaultList = new ArrayList<>();
+            defaultList.add("1 /// default /// 0");
+
+            arenasConfig.set("inventories", defaultList);
+            save(FileType.ARENAS);
+
 
         }
 
@@ -98,7 +109,7 @@ public class FileManager {
     }
 
     public enum FileType {
-        COORDS(1, "Stockage de locations", coordsFile, coordsConfig),
+        ARENAS(1, "Stockage des arenes", arenasFile, arenasConfig),
         INVENTORY(2, "Stockage d'inventaires", inventoryFile, inventoryConfig);
 
         @Getter

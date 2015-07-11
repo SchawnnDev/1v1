@@ -18,7 +18,6 @@ import org.bukkit.entity.Player;
 
 public class CommandArenasList implements Command {
 
-
     @Override
     public String command() {
         return "1v1 arenas list";
@@ -27,7 +26,7 @@ public class CommandArenasList implements Command {
     @Override
     public void execute(Player player) {
 
-        
+
 
     }
 }

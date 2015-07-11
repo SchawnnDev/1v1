@@ -24,5 +24,4 @@ public interface Message {
 
     public void print(Player player, int category);
 
-
 }
