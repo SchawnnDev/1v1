@@ -49,11 +49,11 @@ public class FileManager {
 
             if (!coordsFile.exists()) {
                 coordsFile.createNewFile();
-                newCoordsFile=true;
+                newCoordsFile = true;
             }
             if (!inventoryFile.exists()) {
                 inventoryFile.createNewFile();
-                newInventoryFile=true;
+                newInventoryFile = true;
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -65,8 +65,7 @@ public class FileManager {
         if(newInventoryFile) {
 
             List<String> defaultList = new ArrayList<>();
-            defaultList.add("'1 /// soup /// 0/:/295/:/1/:/0/:/0/:/none/:/aucun/::/1/:/373/:/1/:/16419/:/0/:/none/:/aucun/::/2/:/372/:/64/:/0/:/0/:/none/:/aucun/::/4/:/371/:/64/:/0/:/0/:/none/:/aucun/::/5/:/351/:/64/:/10/:/0/:/none/:/aucun/::/7/:/373/:/1/:/8228/:/0/:/none/:/aucun/::/8/:/294/:/1/:/14/:/0/:/none/:/aucun/::/10/:/373/:/1/:/16454/:/0/:/none/:/aucun/::/11/:/373/:/1/:/16393/:/0/:/none/:/aucun/::/12/:/373/:/1/:/8265/:/0/:/none/:/aucun/::/13/:/373/:/1/:/16456/:/0/:/none/:/aucun/::/14/:/399/:/64/:/0/:/0/:/none/:/aucun/::/15/:/296/:/64/:/0/:/0/:/none/:/aucun/::/16/:/373/:/1/:/8230/:/0/:/none/:/aucun/::/29/:/403/:/1/:/0/:/0/:/none/:/aucun/::/32/:/373/:/1/:/16450/:/0/:/none/:/aucun/::/34/:/266/:/64/:/0/:/0/:/none/:/aucun'");
-            defaultList.add("");
+            defaultList.add("1 /// default /// 0");
 
             inventoryConfig.set("inventories", defaultList);
             save(FileType.INVENTORY);

@@ -13,6 +13,8 @@
 
 package fr.schawnndev;
 
+import fr.schawnndev.data.Message;
+import fr.schawnndev.data.ui.HelpMessage;
 import fr.schawnndev.events.PlayerListener;
 import fr.schawnndev.inventory.GameInventory;
 import fr.schawnndev.inventory.InventoryManager;
@@ -88,6 +90,62 @@ public class Main extends JavaPlugin {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+
+        if(command.getName().equalsIgnoreCase("1v1")){
+
+            if (!(sender instanceof Player)) {
+                sender.sendMessage("§cTu n'es pas un joueur !");
+                return true;
+            }
+
+            Player player = (Player)sender;
+
+            if(player.hasPermission("1v1.admin") || player.isOp()){
+
+                if(args.length == 0){
+
+                    new HelpMessage().print(player, 1);
+
+                    return true;
+                } else if (args.length == 1){
+
+                    if(args[0].equalsIgnoreCase("inventories")){
+
+                        new HelpMessage().print(player, 2);
+
+                        return true;
+                    } else if (args[0].equalsIgnoreCase("arenas")){
+
+                        new HelpMessage().print(player, 3);
+
+                        return true;
+                    }
+
+
+
+
+                }
+
+
+
+
+
+
+
+            } else {
+                player.sendMessage("§fUnknown command. Type "+ '"' + "/help" + '"' + " for help.");
+                return true;
+            }
+
+
+
+            return true;
+        }
+
+
+
+
+
         if (command.getName().equalsIgnoreCase("a")) {
 
             if (!(sender instanceof Player)) {
