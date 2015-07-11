@@ -14,6 +14,7 @@
 package fr.schawnndev.inventory;
 
 import lombok.Getter;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -53,16 +54,16 @@ public class GameInventory {
             String displayName = itemData.get(5);
 
             if(displayName.contains("!e!"))
-                displayName.replace("!e!", "é");
+                displayName.replaceAll("!e!", "é");
 
             if(displayName.contains("!a!"))
-                displayName.replace("!a!", "à");
+                displayName.replaceAll("!a!", "à");
 
             if(displayName.contains("!e-!"))
-                displayName.replace("!e-!", "è");
+                displayName.replaceAll("!e-!", "è");
 
             if(displayName.contains("!c!"))
-                displayName.replace("!c!", "ç");
+                displayName.replaceAll("!c!", "ç");
 
             Map<Enchantment, Integer> enchantmentMap = new HashMap<>();
 
@@ -77,7 +78,7 @@ public class GameInventory {
 
             }
 
-            this.items.add(new AbstractMap.SimpleEntry<>(slot, new ResetItem(material, displayName, amount, damage, materialData, enchantmentMap)));
+            this.items.add(new AbstractMap.SimpleEntry<>(slot, new ResetItem(material, ChatColor.translateAlternateColorCodes('&', displayName), amount, damage, materialData, enchantmentMap)));
 
         }
     }
@@ -96,16 +97,16 @@ public class GameInventory {
                 displayName = itemStack.getItemMeta().getDisplayName();
 
             if(displayName.contains("é"))
-                displayName.replace("é", "!e!");
+                displayName.replaceAll("é", "!e!");
 
             if(displayName.contains("à"))
-                displayName.replace("à", "!a!");
+                displayName.replaceAll("à", "!a!");
 
             if(displayName.contains("è"))
-                displayName.replace("è", "!e-!");
+                displayName.replaceAll("è", "!e-!");
 
             if(displayName.contains("ç"))
-                displayName.replace("ç", "!c!");
+                displayName.replaceAll("ç", "!c!");
 
             String add = (count == 0 ? "" : "/::/") + slot + "/:/" + itemStack.getTypeId() + "/:/" + itemStack.getAmount() + "/:/"
                        + itemStack.getDurability() + "/:/" + itemStack.getData().getData() + "/:/" + displayName + "/:/";
