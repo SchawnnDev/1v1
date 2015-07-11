@@ -167,19 +167,8 @@ public class ResetInventory {
             String displayName = "none";
 
             if(itemStack.hasItemMeta() && itemStack.getItemMeta().getDisplayName() != null)
-                displayName = itemStack.getItemMeta().getDisplayName();
+                displayName = itemStack.getItemMeta().getDisplayName().replaceAll("é", "!e!").replaceAll("à", "!a!").replaceAll("è", "!e-!").replaceAll("ç", "!c!");
 
-            if(displayName.contains("é"))
-                displayName.replaceAll("é", "!e!");
-
-            if(displayName.contains("à"))
-                displayName.replaceAll("à", "!a!");
-
-            if(displayName.contains("è"))
-                displayName.replaceAll("è", "!e-!");
-
-            if(displayName.contains("ç"))
-                displayName.replaceAll("ç", "!c!");
 
             String add = (count == 0 ? "" : "/::/") + slot + "/:/" + itemStack.getTypeId() + "/:/" + itemStack.getAmount() + "/:/"
                     + itemStack.getDurability() + "/:/" + itemStack.getData().getData() + "/:/" + displayName + "/:/";
@@ -228,19 +217,7 @@ public class ResetInventory {
             int amount = Integer.parseInt(itemData.get(2));
             short damage = Short.parseShort(itemData.get(3));
             MaterialData materialData = new MaterialData(material, Byte.parseByte(itemData.get(4)));
-            String displayName = itemData.get(5);
-
-            if(displayName.contains("!e!"))
-                displayName.replaceAll("!e!", "é");
-
-            if(displayName.contains("!a!"))
-                displayName.replaceAll("!a!", "à");
-
-            if(displayName.contains("!e-!"))
-                displayName.replaceAll("!e-!", "è");
-
-            if(displayName.contains("!c!"))
-                displayName.replaceAll("!c!", "ç");
+            String displayName = itemData.get(5).replaceAll("!e!", "é").replaceAll("!a!", "à").replaceAll("!e-!", "è").replaceAll("!c!", "ç");
 
             Map<Enchantment, Integer> enchantmentMap = new HashMap<>();
 
