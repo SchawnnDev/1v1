@@ -13,10 +13,8 @@
 
 package fr.schawnndev;
 
-import fr.schawnndev.data.Message;
-import fr.schawnndev.data.ui.HelpMessage;
+import fr.schawnndev.data.ui.MessageHelp;
 import fr.schawnndev.events.PlayerListener;
-import fr.schawnndev.inventory.GameInventory;
 import fr.schawnndev.inventory.InventoryManager;
 import fr.schawnndev.inventory.ResetInventory;
 import fr.schawnndev.out.FileManager;
@@ -104,19 +102,24 @@ public class Main extends JavaPlugin {
 
                 if(args.length == 0){
 
-                    new HelpMessage().print(player, 1);
+                    new MessageHelp().print(player, 1);
 
                     return true;
                 } else if (args.length == 1){
 
                     if(args[0].equalsIgnoreCase("inventories")){
 
-                        new HelpMessage().print(player, 2);
+                        new MessageHelp().print(player, 2);
 
                         return true;
                     } else if (args[0].equalsIgnoreCase("arenas")){
 
-                        new HelpMessage().print(player, 3);
+                        new MessageHelp().print(player, 3);
+
+                        return true;
+                    } else {
+
+                        player.sendMessage("§cCommande §f/1v1 " + args[0] + " §cinconnue !");
 
                         return true;
                     }
