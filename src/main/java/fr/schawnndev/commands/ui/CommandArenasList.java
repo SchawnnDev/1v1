@@ -13,6 +13,8 @@
 
 package fr.schawnndev.commands.ui;
 
+import fr.schawnndev.arenas.Arena;
+import fr.schawnndev.arenas.ArenaManager;
 import fr.schawnndev.commands.Command;
 import org.bukkit.entity.Player;
 
@@ -26,7 +28,10 @@ public class CommandArenasList implements Command {
     @Override
     public void execute(Player player) {
 
+        player.sendMessage("§f------- §4Liste des arènes §f-------");
 
+         for(Arena arena : ArenaManager.arenas)
+             player.sendMessage("§f- §6Arène " + arena.getName() + " (" + arena.getId() + ") ");
 
     }
 }

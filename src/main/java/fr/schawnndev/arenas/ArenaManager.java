@@ -13,6 +13,7 @@
 
 package fr.schawnndev.arenas;
 
+import lombok.Getter;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import java.util.UUID;
 
 public class ArenaManager {
 
+    @Getter
     public static List<Arena> arenas = new ArrayList<>();
 
     public static boolean isInGame(Player player){
