@@ -19,7 +19,7 @@
 
     <groupId>HungerGames</groupId>
     <artifactId>1v1</artifactId>
-    <version>v1.0.0</version>
+    <version>1.0.0</version>
 
     <repositories>
         <repository>
