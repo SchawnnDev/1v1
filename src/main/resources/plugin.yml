@@ -1,7 +1,7 @@
 name: 1vs1
 main: fr.schawnndev.Main
 author: SchawnnDev
-version: v1.0.0
+version: 1.0.0
 commands:
   a:
     description: Test command!
