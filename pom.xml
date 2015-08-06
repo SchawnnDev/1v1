@@ -29,7 +29,7 @@
     </repositories>
 
     <scm>
-        <connection>scm:git:git@git.uhcwork.net:schawnndev/1v1.git</connection>
+        <connection>scm:git:1v1.git</connection>
     </scm>
 
     <dependencies>
